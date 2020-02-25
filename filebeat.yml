@@ -1,0 +1,25 @@
+#=========================== Filebeat inputs =============================
+filebeat.inputs:
+#------------------------------ Log input --------------------------------
+- type: log
+  enabled: true
+  paths:
+    - /var/opt/redislabs/log/cnm_exec.log
+  fields:
+      type: cnm_exec
+  fields_under_root: true
+
+- type: log
+  enabled: true
+  paths:
+    - /var/opt/redislabs/log/event_log.log
+  fields:
+      type: eventlog
+  fields_under_root: true
+
+processors:
+- add_tags:
+    tags: [redisenteprise]
+
+output.logstash:
+  hosts: ["127.0.0.1:5044"]
