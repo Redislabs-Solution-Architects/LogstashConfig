@@ -17,6 +17,15 @@ filebeat.inputs:
       type: eventlog
   fields_under_root: true
 
+- type: log
+  enabled: true
+  paths:
+    - /var/opt/redislabs/log/redis-*.log
+  fields:
+      type: shardlog
+  fields_under_root: true
+
+
 processors:
 - add_tags:
     tags: [redisenteprise]
