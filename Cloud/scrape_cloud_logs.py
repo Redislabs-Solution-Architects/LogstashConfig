@@ -24,7 +24,7 @@ except Exception as err:
 
 
 
-url = "https://%s/logs/endpoint" % (config['host'])
+url = "https://%s/v1/logs" % (config['host'])
 
 payload = {'limit': 200, 'offset': 0}
 
@@ -44,6 +44,11 @@ try:
     if r.status_code != 200:
         print("ERROR: HTTP status code: %s for %s" % (r.status_code, config['host']))
         exit(1)
+
+    j = r.json()
+    
+    for entry in j['entries']:
+        print(entry)
 
 except Exception as err:
     print("ERROR: ", err)
