@@ -1,8 +1,8 @@
 ---
 host: www.mague2112.com
 api-key: myapikey
-api-secret: myapikey
+api-secret: myapisecret
 state-file: /var/tmp/scrape_cloud_logs.txt
-log-file: /var/tmp/rediscloud.log
+log-file: /var/log/rediscloud.log
 poll-interval: 120
 
