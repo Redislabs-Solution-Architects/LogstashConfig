@@ -1,0 +1,18 @@
+#=========================== Filebeat inputs =============================
+filebeat.inputs:
+#------------------------------ Log input --------------------------------
+- type: log
+  enabled: true
+  paths:
+    - /var/log/rediscloud.log
+  fields:
+      type: rediscloud
+  fields_under_root: true
+
+
+processors:
+- add_tags:
+    tags: [rediscloud]
+
+output.logstash:
+  hosts: ["127.0.0.1:5044"]
