@@ -4,6 +4,8 @@ import requests
 import yaml
 import getopt
 import sys
+import datetime
+import json
 
 configfile = "./config.yaml"
 
@@ -22,7 +24,12 @@ except Exception as err:
     print("Unable to load config file: %s" %(configfile))
     exit(1)
 
-
+try:
+    f = open(config['state-file'], 'r')
+    offset = int(f.read().rstrip())
+    f.close()
+except:
+    offset = 0
 
 url = "https://%s/v1/logs" % (config['host'])
 
@@ -48,8 +55,19 @@ try:
     j = r.json()
     
     for entry in j['entries']:
-        print(entry)
+        entry['time'] = int(datetime.datetime.strptime(entry['time'], "%Y-%m-%dT%H:%M:%SZ").strftime('%s'))
+        if entry['time'] > offset:
+            print(json.dumps(entry))
+        offset = entry['time']
 
 except Exception as err:
     print("ERROR: ", err)
     exit(1)
+
+
+try:
+    w = open(config['state-file'], 'w')
+    w.write(offset)
+    f.close()
+except:
+    offset = 0
